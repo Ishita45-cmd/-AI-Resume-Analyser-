@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> AI Resume Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+  <h1> AI Resume Analyzer</h1>
+  <button id="themeToggle">🌙 Toggle Theme</button>
+</header>
+
+<section class="hero">
+  <h2>Smart Recruitment & Resume Screening System</h2>
+  <p>AI Based Resume Screening For Multiple Company Departments</p>
+</section>
+
+<section class="upload-section">
+  <h2>Upload Resume</h2>
+
+  <div class="drop-zone" id="dropZone">
+    <p>Drag & Drop Resume Here</p>
+    <input type="file" id="resumeInput" accept=".pdf,.doc,.docx">
+  </div>
+
+  <button onclick="analyzeResume()">Analyze Resume</button>
+</section>
+
+<section class="dashboard">
+
+  <div class="card">
+    <h3>Resume Score</h3>
+    <div class="score-circle" id="score">0</div>
+    <p id="scoreText">Waiting For Analysis...</p>
+  </div>
+
+  <div class="card">
+    <h3>Keyword Match</h3>
+    <div class="progress-bar">
+      <div class="progress" id="keywordProgress"></div>
+    </div>
+    <p id="keywordText">0%</p>
+  </div>
+
+  <div class="card">
+    <h3>ATS Checker</h3>
+    <ul id="atsList">
+      <li>Checking...</li>
+    </ul>
+  </div>
+
+</section>
+
+<section class="skills-section">
+  <h2>Detected Skills</h2>
+  <div id="skillsContainer"></div>
+</section>
+
+<section class="skills-section">
+  <h2>Missing Skills Suggestions</h2>
+  <div id="missingSkills"></div>
+</section>
+
+<section class="feedback-section">
+  <h2>AI Feedback</h2>
+  <div id="feedback"></div>
+</section>
+
+<section class="departments">
+  <h2>Company Departments & Hiring Requirements</h2>
+
+  <div class="department-grid">
+
+    <div class="department-card">
+      <h3>HR Department</h3>
+      <p><strong>Vacancies:</strong> 18</p>
+
+      <h4>Posts:</h4>
+      <ul>
+        <li>HR Executive</li>
+        <li>Recruitment Manager</li>
+        <li>Talent Acquisition Specialist</li>
+      </ul>
+
+      <h4>Required Skills:</h4>
+      <ul>
+        <li>Communication Skills</li>
+        <li>Leadership</li>
+        <li>Recruitment Management</li>
+        <li>Interview Handling</li>
+      </ul>
+    </div>
+
+    <div class="department-card">
+      <h3>Technical Department</h3>
+      <p><strong>Vacancies:</strong> 40</p>
+
+      <h4>Posts:</h4>
+      <ul>
+        <li>Frontend Developer</li>
+        <li>Backend Developer</li>
+        <li>AI/ML Engineer</li>
+        <li>Data Analyst</li>
+      </ul>
+
+      <h4>Required Skills:</h4>
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Python</li>
+        <li>React</li>
+        <li>Machine Learning</li>
+      </ul>
+    </div>
+
+    <div class="department-card">
+      <h3>Finance Department</h3>
+      <p><strong>Vacancies:</strong> 12</p>
+
+      <h4>Posts:</h4>
+      <ul>
+        <li>Financial Analyst</li>
+        <li>Account Manager</li>
+        <li>Auditor</li>
+      </ul>
+
+      <h4>Required Skills:</h4>
+      <ul>
+        <li>Excel</li>
+        <li>Tally</li>
+        <li>Financial Reporting</li>
+        <li>Taxation</li>
+      </ul>
+    </div>
+
+    <div class="department-card">
+      <h3>Marketing Department</h3>
+      <p><strong>Vacancies:</strong> 20</p>
+
+      <h4>Posts:</h4>
+      <ul>
+        <li>SEO Specialist</li>
+        <li>Digital Marketer</li>
+        <li>Content Strategist</li>
+      </ul>
+
+      <h4>Required Skills:</h4>
+      <ul>
+        <li>SEO</li>
+        <li>Social Media Marketing</li>
+        <li>Canva</li>
+        <li>Google Ads</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="communication-test">
+  <h2>English Communication Test</h2>
+
+  <div class="test-box">
+    <p>Question: Introduce yourself professionally.</p>
+    <textarea id="englishAnswer" placeholder="Type your answer here..."></textarea>
+
+    <button onclick="evaluateEnglish()">Evaluate Communication</button>
+
+    <div id="englishResult"></div>
+  </div>
+</section>
+
+<section class="experience-section">
+  <h2>Resume Shortlisting Based On Experience</h2>
+
+  <div class="experience-grid">
+
+    <div class="exp-card">
+      <h3>Freshers</h3>
+      <p>Suitable For:</p>
+      <ul>
+        <li>Junior Developer</li>
+        <li>Trainee HR</li>
+        <li>Associate Analyst</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <h3>1-3 Years Experience</h3>
+      <p>Salary Package: 10-15 LPA</p>
+      <ul>
+        <li>Software Engineer</li>
+        <li>HR Executive</li>
+        <li>Financial Associate</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <h3>5+ Years Experience</h3>
+      <p>Salary Package: 20-28 LPA</p>
+      <ul>
+        <li>Senior Developer</li>
+        <li>Team Lead</li>
+        <li>Senior HR Manager</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <h3>10+ Years Experience</h3>
+      <p>Salary Package: 30+ LPA</p>
+      <ul>
+        <li>CTO</li>
+        <li>Technical Architect</li>
+        <li>Finance Head</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="template-section">
+  <h2>Resume Template Verification</h2>
+
+  <div class="template-card">
+    <p>✔ Resume Must Match Company Template</p>
+    <p>✔ Mandatory Sections Required:</p>
+
+    <ul>
+      <li>Education</li>
+      <li>Skills</li>
+      <li>Projects</li>
+      <li>Experience</li>
+      <li>Contact Information</li>
+    </ul>
+
+    <p>If Template Does Not Match → Resume Rejected</p>
+  </div>
+</section>
+
+<section class="resume-lists">
+
+  <div class="list-card accepted">
+    <h2>Accepted Resumes</h2>
+
+    <ul id="acceptedList">
+      <li>Frontend Developer - Accepted</li>
+      <li>AI Engineer - Accepted</li>
+    </ul>
+  </div>
+
+  <div class="list-card rejected">
+    <h2>Rejected Resumes</h2>
+
+    <ul id="rejectedList">
+      <li>Template Mismatch</li>
+      <li>Missing Skills</li>
+    </ul>
+  </div>
+
+</section>
+
+<section class="multi-language">
+  <h2>Multi-Language Bonus Feature</h2>
+
+  <div class="language-card">
+    <p>Extra Score Given If Candidate Knows:</p>
+
+    <ul>
+      <li>English</li>
+      <li>Hindi</li>
+      <li>French</li>
+      <li>German</li>
+      <li>Spanish</li>
+      <li>Japanese</li>
+    </ul>
+
+    <p>More Languages = Higher Resume Ranking</p>
+  </div>
+</section>
+
+<section class="chart-section">
+  <h2>Resume Analytics Dashboard</h2>
+
+  <canvas id="resumeChart"></canvas>
+</section>
+
+<section class="career-section">
+  <h2>AI Career Suggestions</h2>
+
+  <div id="careerSuggestions">
+    <p>Frontend Developer</p>
+    <p>AI Engineer</p>
+    <p>Web Developer</p>
+    <p>Data Analyst</p>
+  </div>
+</section>
+
+<section class="download-section">
+  <button onclick="downloadReport()">Download Resume Report</button>
+</section>
+
+<footer>
+  <p>Enterprise AI Resume Analyzer © 2026</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
